@@ -1,0 +1,18 @@
+{
+  "name": "atividade07",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx functions-framework --target=hey",
+    "gcp-build": "npm i npm-install-peers"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  }
+}

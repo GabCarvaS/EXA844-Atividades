@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>My Blog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/javascript">
+      var url =
+        "https://script.google.com/macros/s/AKfycbzBn3sALe1rYjz7Ze-Ik7q9TEVP0I2V3XX7GNcecWP8NvCzGt4yO_RT1OlQp09TE9cU/exec";
+
+      function send(event) {
+        data = {
+          message: document.getElementById("msg").value,
+          author: document.getElementById("autor").value,
+        };
+        var json_data = JSON.stringify(data);
+
+        var header = {
+          "Cotent-Type": "application/json",
+        };
+
+        fetch(url, {
+          method: "POST",
+          body: json_data,
+          headers: header,
+          mode: "no-cors",
+        });
+      }
+      function reload() {
+        const qtdRows =
+          document.getElementById("tabela").getElementsByTagName("tr").length -
+          1;
+        const ajax = new XMLHttpRequest();
+        ajax.open("GET", `${url}?tenho=${qtdRows}`, true);
+        ajax.onload = function () {
+          if (ajax.status === 200) {
+            const jsonObj = JSON.parse(ajax.responseText);
+            jsonObj.map((obj) => {
+              const tab = document.getElementById("tabela");
+              const row = tab.insertRow(0);
+              const author = row.insertCell(0);
+              const message = row.insertCell(1);
+              const timeStamp = row.insertCell(2);
+
+              author.innerHTML = obj[0];
+              message.innerHTML = obj[1];
+              timeStamp.innerHTML = obj[2];
+            });
+          }
+        };
+        ajax.send();
+      }
+    </script>
+  </head>
+  <body>
+    <h1 align="center">Mensagem:</h1>
+    <hr />
+    <br />
+    <form>
+      <label>Mensagem:</label>
+      <input type="text" size="64" name="msg" id="msg" /><br /><br />
+      <label>Autor:</label>
+      <input type="text" size="64" name="autor" id="autor" />
+      <br /><br />
+      <button type="button" onclick="send()">Enviar</button>
+    </form>
+    <button type="button" onclick="reload()">Reload</button>
+    <table id="tabela">
+      <thead>
+        <tr></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </body>
+</html>
